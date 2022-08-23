@@ -7,7 +7,7 @@ export const parseGoTemplate: Parser<GoNode>["parse"] = (
   options
 ) => {
   const regex =
-    /{{(?<startdelimiter>-|<|%|\/\*)?\s*(?<statement>(?<keyword>if|range|block|with|define|end|else|prettier-ignore-start|prettier-ignore-end)?[\s\S]*?)\s*(?<endDelimiter>-|>|%|\*\/)?}}|(?<unformattableScript><(script)((?!<)[\s\S])*>((?!<\/script)[\s\S])*?{{[\s\S]*?<\/(script)>)|(?<unformattableStyle><(style)((?!<)[\s\S])*>((?!<\/style)[\s\S])*?{{[\s\S]*?<\/(style)>)/g;
+    /{{(?<startdelimiter>-|<|%|\/\*)?\s*(?<statement>(?<keyword>if|yield|range|block|with|define|end|else|prettier-ignore-start|prettier-ignore-end)?[\s\S]*?)\s*(?<endDelimiter>-|>|%|\*\/)?}}|(?<unformattableScript><(script)((?!<)[\s\S])*>((?!<\/script)[\s\S])*?{{[\s\S]*?<\/(script)>)|(?<unformattableStyle><(style)((?!<)[\s\S])*>((?!<\/style)[\s\S])*?{{[\s\S]*?<\/(style)>)/g;
   const root: GoRoot = {
     type: "root",
     content: text,
@@ -69,6 +69,7 @@ export const parseGoTemplate: Parser<GoNode>["parse"] = (
 
     if (keyword === "end" || keyword === "prettier-ignore-end") {
       if (current.type !== "block") {
+
         throw Error("Encountered unexpected end keyword.");
       }
 
@@ -197,6 +198,7 @@ export type GoNode =
 
 export type GoBlockKeyword =
   | "if"
+  | "yield"
   | "range"
   | "block"
   | "with"
